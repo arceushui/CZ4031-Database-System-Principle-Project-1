@@ -31,3 +31,6 @@ create_table("IMDB", "data.tsv", 3);
 - B+ tree
 - Build the application
 - organize the file structure
+
+## Further development
+Please commit to your own branch before being push into the master branch
