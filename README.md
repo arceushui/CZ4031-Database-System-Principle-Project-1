@@ -10,7 +10,7 @@ C++ scripts are in the main directory. **Will put all scripts into a directory l
 - include => header files
 - tables => database directory
 - database directory => name: database name, files: blocks, headers, database buffer files
-- data.tsv => this project data file is in the main directory **WIll organize the file structure**
+- data.tsv => this project data file is in the main directory **Will organize the file structure**
 
 ## Running scripts
 Run main.cpp to start the application. **Currently it can create blocks of data based on input data file**
