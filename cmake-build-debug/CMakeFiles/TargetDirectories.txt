@@ -1,0 +1,3 @@
+C:/Users/User/CLionProjects/Database System Principle/cmake-build-debug/CMakeFiles/Database_System_Principle.dir
+C:/Users/User/CLionProjects/Database System Principle/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/User/CLionProjects/Database System Principle/cmake-build-debug/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/User/CLionProjects/Database System Principle/create_table.cpp
+include/function_declarations.h
+C:/Users/User/CLionProjects/Database System Principle/include/function_declarations.h
+string
+-
+sstream
+-
+iostream
+-
+
+C:/Users/User/CLionProjects/Database System Principle/include/function_declarations.h
+fstream
+-
+
