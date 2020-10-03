@@ -37,7 +37,7 @@ FILE *get_file(char table_name[] , char opera[]){
 
     strcat(file_name, table_name);
     strcat(file_name, "_buff.dat");
-    std::cout << file_name;
+    //std::cout << file_name;
 
     file = fopen(file_name, opera);
     if (!file){

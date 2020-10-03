@@ -181,6 +181,33 @@ file_handler.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Database_System_Principle.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Database_System_Principle.dir\file_handler.cpp.s
 .PHONY : file_handler.cpp.s
 
+get_storage_details.obj: get_storage_details.cpp.obj
+
+.PHONY : get_storage_details.obj
+
+# target to build an object file
+get_storage_details.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Database_System_Principle.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Database_System_Principle.dir\get_storage_details.cpp.obj
+.PHONY : get_storage_details.cpp.obj
+
+get_storage_details.i: get_storage_details.cpp.i
+
+.PHONY : get_storage_details.i
+
+# target to preprocess a source file
+get_storage_details.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Database_System_Principle.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Database_System_Principle.dir\get_storage_details.cpp.i
+.PHONY : get_storage_details.cpp.i
+
+get_storage_details.s: get_storage_details.cpp.s
+
+.PHONY : get_storage_details.s
+
+# target to generate assembly for a file
+get_storage_details.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Database_System_Principle.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Database_System_Principle.dir\get_storage_details.cpp.s
+.PHONY : get_storage_details.cpp.s
+
 main.obj: main.cpp.obj
 
 .PHONY : main.obj
@@ -223,6 +250,9 @@ help:
 	@echo ... file_handler.obj
 	@echo ... file_handler.i
 	@echo ... file_handler.s
+	@echo ... get_storage_details.obj
+	@echo ... get_storage_details.i
+	@echo ... get_storage_details.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
