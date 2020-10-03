@@ -96,21 +96,15 @@ void create_table(char name[], std::string input_file, int count){
 
     char *path;
     int ins_head;
+    char next[] = "\n";
 
     path=(char *)malloc(sizeof(char)*PATH_LEN);
-    sprintf(path, "tables/%s/header.dat", table->name);
-    //std::cout<<str<<endl;
-    FILE *blk_file = fopen(path, "w+");
-    ins_head = insert_header(table, blk_file);
-    fclose(blk_file);
 
-    sprintf(path, "tables/%s/block_%d.dat", table->name, num_block);
-    //std::cout<<str<<endl;
-    blk_file = fopen(path, "w+");
 
-    if (!ins_head){
-        std::cout << "Header insert failed.\n";
-    }
+    sprintf(path, "tables/%s/disk.dat", table->name);
+    //std::cout<<str<<endl;
+    FILE *disk_file = fopen(path, "w+");
+
 
     while(std::getline(infile, data)){
         std::istringstream iss(data);
@@ -130,26 +124,41 @@ void create_table(char name[], std::string input_file, int count){
         //std::cout << "\n";
 
         if((table->num_rec)*(table->record_size) > table->block_size){
-            fclose(blk_file);
             table->num_rec = 0;
             num_block++;
-            sprintf(path, "tables/%s/block_%d.dat", table->name, num_block);
+            //sprintf(path, "tables/%s/block_%d.dat", table->name, num_block);
             //std::cout<<str<<endl;
-            blk_file = fopen(path, "w+");
-            insert_data(line_data,table,blk_file);
-            //std::cout << "new file\n";
+            //disk_file = fopen(path, "w+");
+            fwrite(next, sizeof(char) * CHAR_SIZE, 1, disk_file);
+            insert_data(line_data, table, disk_file);
         }
 
         else{
-            insert_data(line_data,table,blk_file);
-            //std::cout << "old file\n";
+            insert_data(line_data, table, disk_file);
         }
 
         (table->num_rec)++;
 
     }
-    free(table);
+    table->num_blocks = num_block;
+    rewind(disk_file);
+    fseek(disk_file, 0L, SEEK_END);
+    table->table_size = ftell(disk_file);
+    //std::cout << table->num_blocks << std::endl;
+    //std::cout << table->table_size << std::endl;
+    fclose(disk_file);
 
+    sprintf(path, "tables/%s/header.dat", table->name);
+    //std::cout<<str<<endl;
+    disk_file = fopen(path, "w+");
+    ins_head = insert_header(table, disk_file);
+    fclose(disk_file);
+
+    if (!ins_head){
+        std::cout << "Header insert failed.\n";
+    }
+
+    free(table);
 
     return;
 }

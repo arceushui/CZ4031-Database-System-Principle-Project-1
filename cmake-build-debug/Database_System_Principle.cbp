@@ -88,6 +88,9 @@
 		<Unit filename="C:/Users/User/CLionProjects/Database System Principle/file_handler.cpp">
 			<Option target="Database_System_Principle"/>
 		</Unit>
+		<Unit filename="C:/Users/User/CLionProjects/Database System Principle/get_storage_details.cpp">
+			<Option target="Database_System_Principle"/>
+		</Unit>
 		<Unit filename="C:/Users/User/CLionProjects/Database System Principle/include/function_declarations.h">
 			<Option target="Database_System_Principle"/>
 		</Unit>

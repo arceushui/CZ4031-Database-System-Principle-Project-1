@@ -11,7 +11,7 @@
 
 #define NUM_ATT 3
 #define COL_NAME_SIZE 15
-#define CHAR_SIZE 12
+#define CHAR_SIZE 11
 #define BLOCK_SIZE 100
 #define FILE_NAME_SIZE 15
 #define PATH_LEN 50
@@ -29,6 +29,7 @@ struct Table{
     int table_size;
     int block_size;
     int num_rec;
+    int num_blocks;
     columns col[NUM_ATT + 1];
     char name[FILE_NAME_SIZE];
 
@@ -37,3 +38,4 @@ struct Table{
 
 FILE *get_file(char table_name[] , char opera[]);
 void create_table(char name[FILE_NAME_SIZE], std::string input_file, int count);
+void get_storage_details(char table_name[]);

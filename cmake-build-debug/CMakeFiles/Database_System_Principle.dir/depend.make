@@ -7,6 +7,9 @@ CMakeFiles\Database_System_Principle.dir\create_table.cpp.obj: ..\include\functi
 CMakeFiles\Database_System_Principle.dir\file_handler.cpp.obj: ..\file_handler.cpp
 CMakeFiles\Database_System_Principle.dir\file_handler.cpp.obj: ..\include\function_declarations.h
 
+CMakeFiles\Database_System_Principle.dir\get_storage_details.cpp.obj: ..\get_storage_details.cpp
+CMakeFiles\Database_System_Principle.dir\get_storage_details.cpp.obj: ..\include\function_declarations.h
+
 CMakeFiles\Database_System_Principle.dir\main.cpp.obj: ..\include\function_declarations.h
 CMakeFiles\Database_System_Principle.dir\main.cpp.obj: ..\main.cpp
 
