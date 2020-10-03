@@ -8,9 +8,9 @@
 ## File structure
 C++ scripts are in the main directory. **Will put all scripts into a directory later**
 - include => header files
-- tables => database directory
-- database directory => name: database name, files: blocks, headers, database buffer files
-- data.tsv => this project data file is in the main directory **Will organize the file structure**
+- cmake-build-debug/tables => database directory
+- cmake-build-debug/database directory => name: database name, files: disk, headers, database buffer files
+- cmake-build-debug/data.tsv => this project data file is in the main directory **Will organize the file structure**
 
 ## Running scripts
 Run main.cpp to start the application. **Currently it can create blocks of data based on input data file**
@@ -30,7 +30,7 @@ create_table("IMDB", "data.tsv", 3);
 ## Future works
 - B+ tree
 - Build the application
-- organize the file structure
+- Organize the file structure
 
 ## Further development
 Please commit to your own branch before being push into the master branch
