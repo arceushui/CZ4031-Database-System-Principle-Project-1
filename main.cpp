@@ -51,5 +51,6 @@ void input(){
 
 int main() {
     input();
+   //read_blocks("IMDB");
     return 0;
 }
