@@ -6,21 +6,7 @@
 #include <string>
 #include <sstream>
 #include <iostream>
-
-void insert_data(void * line_data[], Table *table, FILE *blk_file){
-    for(int j = 0; j < table->num_att; j++){
-        if(table->col[j].dtype == 1){
-            fwrite((char *)line_data[j], sizeof(char)*CHAR_SIZE, 1, blk_file);
-        }
-        else if(table->col[j].dtype == 2){
-            fwrite((float*)line_data[j], sizeof(float), 1, blk_file);
-        }
-        else if(table->col[j].dtype == 3){
-            fwrite((int *)line_data[j], sizeof(int), 1, blk_file);
-        }
-    }
-
-}
+#include <ostream>
 
 int insert_header(Table *table, FILE *blk_file)
 {
@@ -89,14 +75,9 @@ void create_table(char name[], std::string input_file, int count){
     fclose(out);
 
     int num_block = 0;
-    void *line_data[NUM_ATT];
-    line_data[0] = malloc(sizeof(char) * (CHAR_SIZE + 1));
-    line_data[1] = (float*) malloc(sizeof(float));
-    line_data[2] = (int*) malloc(sizeof(int));
 
     char *path;
     int ins_head;
-    char next[] = "\n";
 
     path=(char *)malloc(sizeof(char)*PATH_LEN);
 
@@ -104,7 +85,9 @@ void create_table(char name[], std::string input_file, int count){
     sprintf(path, "tables/%s/disk.dat", table->name);
     //std::cout<<str<<endl;
     FILE *disk_file = fopen(path, "w+");
-
+    std::ofstream data_file;
+    data_file.open (path);
+    data_file << num_block <<";";
 
     while(std::getline(infile, data)){
         std::istringstream iss(data);
@@ -113,31 +96,33 @@ void create_table(char name[], std::string input_file, int count){
             break;
         }
 
-        strcpy((char*)(line_data[0]), a);
-        *((float*)line_data[1]) = b;
-        *((int*)line_data[2]) = c;
+
+        (table->num_rec)++;
 
         //std::cout << a;
-        //std::cout << table->num_rec;
-        //std::cout << table->record_size;
-        //std::cout << table->block_size;
+        //std::cout << table->num_rec << std::endl;
+        //std::cout << table->record_size << std::endl;
+        //std::cout << (table->num_rec)*(table->record_size) + 4 << std::endl;
         //std::cout << "\n";
 
-        if((table->num_rec)*(table->record_size) > table->block_size){
-            table->num_rec = 0;
+        if(((table->num_rec)*(table->record_size + 3) + 4) > table->block_size){
+            table->num_rec = 1;
             num_block++;
             //sprintf(path, "tables/%s/block_%d.dat", table->name, num_block);
             //std::cout<<str<<endl;
             //disk_file = fopen(path, "w+");
-            fwrite(next, sizeof(char) * CHAR_SIZE, 1, disk_file);
-            insert_data(line_data, table, disk_file);
+            //fflush(disk_file);
+            //fwrite(&next, sizeof(char)*CHAR_SIZE, 1, disk_file);
+            data_file << std::endl;
+            data_file << num_block << ";";
+            //fwrite(&num_block, sizeof(char)*CHAR_SIZE, 1, disk_file);
+
+            //insert_data(line_data, table, &data_file);
         }
 
-        else{
-            insert_data(line_data, table, disk_file);
-        }
-
-        (table->num_rec)++;
+        data_file << a << " ";
+        data_file << b << " ";
+        data_file << c << " ";
 
     }
     table->num_blocks = num_block;

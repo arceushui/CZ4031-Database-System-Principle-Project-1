@@ -82,6 +82,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="C:/Users/User/CLionProjects/Database System Principle/create_b+.cpp">
+			<Option target="Database_System_Principle"/>
+		</Unit>
 		<Unit filename="C:/Users/User/CLionProjects/Database System Principle/create_table.cpp">
 			<Option target="Database_System_Principle"/>
 		</Unit>
@@ -91,7 +94,13 @@
 		<Unit filename="C:/Users/User/CLionProjects/Database System Principle/get_storage_details.cpp">
 			<Option target="Database_System_Principle"/>
 		</Unit>
+		<Unit filename="C:/Users/User/CLionProjects/Database System Principle/include/B+Tree.h">
+			<Option target="Database_System_Principle"/>
+		</Unit>
 		<Unit filename="C:/Users/User/CLionProjects/Database System Principle/include/function_declarations.h">
+			<Option target="Database_System_Principle"/>
+		</Unit>
+		<Unit filename="C:/Users/User/CLionProjects/Database System Principle/indexing.cpp">
 			<Option target="Database_System_Principle"/>
 		</Unit>
 		<Unit filename="C:/Users/User/CLionProjects/Database System Principle/main.cpp">
