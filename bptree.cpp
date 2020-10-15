@@ -6,6 +6,7 @@
 #include <cstring>
 #include <queue>
 #include<sstream>
+#include <map>
 using namespace std;
 class Node {
 public:
@@ -15,7 +16,7 @@ public:
     Node* ptr2next;
     union ptr {
         vector<Node*> ptr2Tree;
-        vector<string> dataPtr;
+        vector<vector<string>> dataPtr;
 
         ptr();
         ~ptr();
@@ -45,7 +46,7 @@ public:
     void display(Node* cursor);
     void search(float key);
     void searchRange(float smallerKey, float largerKey);
-    void insert(int key, string filePtr);
+    void insert(int key, vector<string> filePtr);
     void removeKey(float x);
     void removeInternal(int x, Node* cursor, Node* child);
 };
@@ -111,7 +112,7 @@ Node** BPTree::findParent(Node* cursor, Node* child) {
 
     return &parent;
 }
-void BPTree::insert(int key, string filePtr) {  //in Leaf Node
+void BPTree::insert(int key, vector<string>filePtr) {  //in Leaf Node
 
     if (root == NULL) {
         root = new Node;
@@ -149,7 +150,7 @@ void BPTree::insert(int key, string filePtr) {  //in Leaf Node
         } else {
 
             vector<int> virtualNode(cursor->keys);
-            vector<string> virtualDataNode(cursor->ptr2TreeOrData.dataPtr);
+            vector<vector<string>> virtualDataNode(cursor->ptr2TreeOrData.dataPtr);
 
 
             int i = std::upper_bound(cursor->keys.begin(), cursor->keys.end(), key) - cursor->keys.begin();
@@ -293,8 +294,9 @@ void BPTree::insertInternal(int x, Node** cursor, Node** child) {
     }
 }
 void BPTree::removeKey(float x) {
-    Node* root = getRoot();
     x = x*10;
+    Node* root = getRoot();
+
     // If tree is empty
     if (root == NULL) {
         cout << "B+ Tree is Empty" << endl;
@@ -335,12 +337,15 @@ void BPTree::removeKey(float x) {
             break;
         }
     }
+
     auto itr = lower_bound(cursor->keys.begin(), cursor->keys.end(), x);
 
     if (itr == cursor->keys.end()) {
         cout << "Key Not Found in the Tree" << endl;
         return;
     }
+
+
     // Shifting the keys and dataPtr for the leaf Node
     for (int i = pos; i < cursor->keys.size()-1; i++) {
         cursor->keys[i] = cursor->keys[i+1];
@@ -350,25 +355,23 @@ void BPTree::removeKey(float x) {
     cursor->keys.resize(prev_size - 1);
     cursor->ptr2TreeOrData.dataPtr.resize(prev_size - 1);
 
-
-
     // If it is leaf as well as the root node
     if (cursor == root) {
         if (cursor->keys.size() == 0) {
             // Tree becomes empty
             setRoot(NULL);
-            cout << "Empty Tree" << endl;
+            cout << "Ohh!! Our Tree is Empty Now :(" << endl;
         }
     }
 
     cout << "Deleted " << x << " From Leaf Node successfully" << endl;
     if (cursor->keys.size() >= (getMaxLeafNodeLimit()+1) / 2) {
         //Sufficient Node available for invariant to hold
-
         return;
     }
 
-    cout << "Underflow in the leaf node" << endl;
+    cout << "UnderFlow in the leaf Node Happended" << endl;
+    cout << "Starting Redistribution..." << endl;
 
     //1. Try to borrow a key from leftSibling
     if (leftSibling >= 0) {
@@ -390,7 +393,6 @@ void BPTree::removeKey(float x) {
             //Update Parent
             parent->keys[leftSibling] = cursor->keys[0];
             printf("Transferred from left sibling of leaf node\n");
-
             return;
         }
     }
@@ -415,7 +417,6 @@ void BPTree::removeKey(float x) {
             //Update Parent
             parent->keys[rightSibling-1] = rightNode->keys[0];
             printf("Transferred from right sibling of leaf node\n");
-
             return;
         }
     }
@@ -432,8 +433,6 @@ void BPTree::removeKey(float x) {
         leftNode->ptr2next = cursor->ptr2next;
         cout << "Merging two leaf Nodes" << endl;
         removeInternal(parent->keys[leftSibling], parent, cursor);//delete parent Node Key
-
-
         //delete cursor;
     }
     else if (rightSibling <= parent->keys.size()) {
@@ -463,13 +462,13 @@ void BPTree::removeInternal(int x, Node* cursor, Node* child) {
             if (cursor->ptr2TreeOrData.ptr2Tree[1] == child) {
                 setRoot(cursor->ptr2TreeOrData.ptr2Tree[0]);
                 //delete cursor;
-                cout << "new root" <<endl;
+                cout << "Wow! New Changed Root" <<endl;
                 return;
             }
             else if (cursor->ptr2TreeOrData.ptr2Tree[0] == child) {
                 setRoot(cursor->ptr2TreeOrData.ptr2Tree[1]);
                 //delete cursor;
-                cout << "new root" << endl;
+                cout << "Wow! New Changed Root" << endl;
                 return;
             }
         }
@@ -482,7 +481,6 @@ void BPTree::removeInternal(int x, Node* cursor, Node* child) {
             break;
         }
     }
-
     for (int i = pos; i < cursor->keys.size()-1; i++) {
         cursor->keys[i] = cursor->keys[i + 1];
     }
@@ -507,7 +505,7 @@ void BPTree::removeInternal(int x, Node* cursor, Node* child) {
         return;
     }
 
-    cout << "UnderFlow in internal Node" << endl;
+    cout << "UnderFlow in internal Node! What did you do :/" << endl;
 
     if (cursor == root) {
         return;
@@ -526,7 +524,6 @@ void BPTree::removeInternal(int x, Node* cursor, Node* child) {
             break;
         }
     }
-
 
     // If possible transfer to leftSibling
     if (leftSibling >= 0) {
@@ -550,8 +547,6 @@ void BPTree::removeInternal(int x, Node* cursor, Node* child) {
 
             return;
         }
-    } else {
-        cout << "left is not available" << endl;
     }
 
     // If possible transfer to rightSibling
@@ -575,8 +570,6 @@ void BPTree::removeInternal(int x, Node* cursor, Node* child) {
 
             return;
         }
-    } else{
-        cout << "right is not available" << endl;
     }
 
     //Start to Merge Now, if None of the above cases applied
@@ -623,6 +616,8 @@ void BPTree::removeInternal(int x, Node* cursor, Node* child) {
         cout << "Merged with right sibling\n";
     }
 }
+
+
 void BPTree::display(Node* cursor) {
     if (cursor == NULL) return;
     queue<Node*> q;
@@ -676,7 +671,11 @@ void BPTree::search(float key) {
             while(i < cursor->keys.size()){
                 if(cursor->keys[i] == key){
                     cout << "key: " << float(cursor->keys[i])/float(10)<< "\n";
-                    cout << "block id: " << cursor->ptr2TreeOrData.dataPtr[i] << endl;
+                    cout << "block id: ";
+                    //cout << "block id: " << cursor->ptr2TreeOrData.dataPtr[i] << endl;map<float, vector<string>>::iterator it;
+                    for (auto i: cursor->ptr2TreeOrData.dataPtr[i])
+                        std::cout << i << ' ';
+                    cout << endl;
                 }else{
                     if(i == 0){
                         indexBlocksCount -= 1;
@@ -732,7 +731,11 @@ void BPTree::searchRange(float smallerKey, float largerKey) {
             while(i < cursor->keys.size()){
                 if(cursor->keys[i] >= smallerKey && cursor->keys[i] <= largerKey){
                     cout << "key: " << float(cursor->keys[i])/float(10)<< "\n";
-                    cout << "block id: " << cursor->ptr2TreeOrData.dataPtr[i] << endl;
+                    cout << "block id: ";
+                    //cout << "block id: " << cursor->ptr2TreeOrData.dataPtr[i] << endl;map<float, vector<string>>::iterator it;
+                    for (auto i: cursor->ptr2TreeOrData.dataPtr[i])
+                        std::cout << i << ' ';
+                    cout << endl;
                 }else{
                     if(i == 0){
                         indexBlocksCount -= 1;
@@ -764,11 +767,14 @@ vector<string> split (const string &s, char delim) {
 
     return result;
 }
+// changed
 void insertFunc(BPTree** bPTree) {
 
     ifstream inFile;
     // please change to correct path
     inFile.open("C:\\Users\\myath\\CLionProjects\\myat-db\\disk.dat",ios::in);
+    map<float, vector<string>> groupByRatingTable;
+    map<float, vector<string>>::iterator it;
     // check if opening a file failed
     if (inFile.fail()) {
         cerr << "Error opeing a file" << endl;
@@ -778,7 +784,8 @@ void insertFunc(BPTree** bPTree) {
     string line;
     string delimiter = ";";
     int i = 0;
-    while (getline(inFile, line) && i < 3)
+    vector<string> tempVect;
+    while (getline(inFile, line) && i < 400)
     {
         cout << line << endl;
         vector<string> v = split(line,';');
@@ -787,10 +794,29 @@ void insertFunc(BPTree** bPTree) {
             float temp = ::atof(data[i].c_str());
             cout << "block id: " << v[0] <<endl;
             cout << "average rating: " << temp << endl;
-            (*bPTree)->insert(temp*10, v[0]);
+            it = groupByRatingTable.find(temp);
+            if (it != groupByRatingTable.end()){
+                //cout << "Found: " << it->first << endl;
+                it->second.push_back(v[0]);
+
+            }else{
+                tempVect.clear();
+                tempVect.push_back(v[0]);
+                groupByRatingTable[temp] =tempVect;
+            }
+
+
 
         }
         i++;
+    }
+    for ( it = groupByRatingTable.begin(); it != groupByRatingTable.end(); it++ )
+    {
+        std::cout << it->first << ":" << endl ;
+        (*bPTree)->insert(it->first*10, it->second);
+        for (auto i: it->second)
+            std::cout << i << ' ';
+        cout << endl;
     }
 
 
@@ -824,44 +850,44 @@ void searchRangeFunc(BPTree* bPTree){
 
 
 
-//int main() {
-//
-//
-//    cout << "\n***iMDB Data***\n"
-//         << endl;
-//
-//    bool flag = true;
-//    int choice;
-//    // change here when you want to change keys
-//    int maxChildInt = 4, maxNodeLeaf = 3;
-//
-//    BPTree* bPTree = new BPTree(maxChildInt, maxNodeLeaf);
-//    insertFunc(&bPTree);
-//    while(flag){
-//        cout << "1 - display tree, 2 - search tree, 3 - search range, 4 - delete from tree, press any other alphanumeric character to exit\n";
-//        cin >> choice;
-//        switch(choice){
-//            case 1:
-//                bPTree->count = 0;
-//                printFunc(bPTree);
-//                cout << "Total Number of Nodes: " << bPTree->count << endl;
-//                break;
-//            case 2:
-//                searchFunc(bPTree);
-//                break;
-//            case 3:
-//                searchRangeFunc(bPTree);
-//                break;
-//            case 4:
-//                deleteFunc(bPTree);
-//                break;
-//            default:
-//                flag = false;
-//        }
-//
-//    };
-//
-//    return 0;
-//}
+int main() {
+
+
+    cout << "\n***iMDB Data***\n"
+         << endl;
+
+    bool flag = true;
+    int choice;
+    // change here when you want to change keys
+    int maxChildInt = 4, maxNodeLeaf = 3;
+
+    BPTree* bPTree = new BPTree(maxChildInt, maxNodeLeaf);
+    insertFunc(&bPTree);
+    while(flag){
+        cout << "1 - display tree, 2 - search tree, 3 - search range, 4 - delete from tree, press any other alphanumeric character to exit\n";
+        cin >> choice;
+        switch(choice){
+            case 1:
+                bPTree->count = 0;
+                printFunc(bPTree);
+                cout << "Total Number of Nodes: " << bPTree->count << endl;
+                break;
+            case 2:
+                searchFunc(bPTree);
+                break;
+            case 3:
+                searchRangeFunc(bPTree);
+                break;
+            case 4:
+                deleteFunc(bPTree);
+                break;
+            default:
+                flag = false;
+        }
+
+    };
+
+    return 0;
+}
 
 //Total Num Nodes:  88548
