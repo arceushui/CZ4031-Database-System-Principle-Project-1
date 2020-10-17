@@ -8,6 +8,7 @@
 #endif //DATABASE_SYSTEM_PRINCIPLE_FUNCTION_DECLARATIONS_H
 
 #include <fstream>
+#include <vector>
 
 #define NUM_ATT 3
 #define COL_NAME_SIZE 15
@@ -24,9 +25,9 @@ struct columns{
 
 struct Table{
     int prefix[NUM_ATT + 1];
-    int num_att;
     int record_size;
     int table_size;
+    int num_att;
     int block_size;
     int num_rec;
     int num_blocks;
@@ -36,7 +37,31 @@ struct Table{
     void *blocks_buff;
 };
 
+struct Record{
+    char first[CHAR_SIZE];
+    float second;
+    int third;
+};
+
+struct Block{
+    Record record;
+    struct Block *next;
+};
+
+struct Block_header{
+    int block_id;
+    int num_records;
+    int first_len;
+    int second_len;
+    int third_len;
+};
+
+
+
 FILE *get_file(char table_name[] , char opera[]);
 void create_table(char name[FILE_NAME_SIZE], std::string input_file, int count);
-void get_storage_details(char table_name[]);
+Table * get_storage_details(char table_name[]);
 void read_blocks(char table_name[]);
+std::vector<std::string> mapper(int blk_id, float index, char db_name[]);
+void create_table_2(char name[], std::string input_file, int count);
+int read();
