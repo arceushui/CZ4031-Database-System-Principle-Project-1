@@ -7,6 +7,13 @@
 #include <queue>
 #include<sstream>
 #include <map>
+#define NUM_ATT 3
+#define COL_NAME_SIZE 15
+#define CHAR_SIZE 11
+#define BLOCK_SIZE 100
+#define FILE_NAME_SIZE 1000
+#define PATH_LEN 50
+#define BPTREE_N_PER_NODE 40
 using namespace std;
 class Node {
 public:
@@ -44,7 +51,7 @@ public:
     void setRoot(Node *);
     void display(Node* cursor);
     vector<string> search(float key);
-    vector<vector<string>> searchRange(float smallerKey, float largerKey);
+    vector<string> searchRange(float smallerKey, float largerKey);
     void insert(int key, vector<string> blocksArr);
     void removeKey(float x);
     void removeInternal(int x, Node* cursor, Node* child);
@@ -655,8 +662,6 @@ vector<string> BPTree::search(float key) {
                 if(cursor->keys[i] == key){
                     float resultKey = float(cursor->keys[i])/float(10);
                     cout << "key: " << resultKey << "\n";
-                    cout << "block id: ";
-                    blockIds.push_back(to_string((resultKey)));
                     for (auto i: cursor->ptrsData.blockptr[i]){
                         blockIds.push_back(i);
                     }
@@ -665,8 +670,6 @@ vector<string> BPTree::search(float key) {
 
                     }
                     cout << endl;
-
-
                 }else{
                     if(i == 0){
                         indexBlocksCount -= 1;
@@ -689,15 +692,14 @@ vector<string> BPTree::search(float key) {
 
     }
 }
-vector<vector<string>> BPTree::searchRange(float smallerKey, float largerKey) {
+vector<string> BPTree::searchRange(float smallerKey, float largerKey) {
     smallerKey= smallerKey*10;
     largerKey = largerKey*10;
-    vector<vector<string>> results;
-    vector<string> tempEmpty;
+    vector<string> results;
+
 
     if (root == NULL) {
         cout << "Empty tree" << endl;
-        results.push_back(tempEmpty);
         return results;
     } else {
         Node* cursor = root;
@@ -715,7 +717,7 @@ vector<vector<string>> BPTree::searchRange(float smallerKey, float largerKey) {
         }
         if (cursor->keys[idx] < smallerKey || cursor->keys[idx] > largerKey ) {
             cout << "not found" << endl;
-            results.push_back(tempEmpty);
+
             return results;
         }else{
             int i = idx;
@@ -732,19 +734,19 @@ vector<vector<string>> BPTree::searchRange(float smallerKey, float largerKey) {
                     for (auto i: cursor->ptrsData.blockptr[i]){
                         blockIds.push_back(i);
                     }
-                    for (auto i: blockIds){
-                        cout << i << " ";
-                    }
-                    cout << endl;
 
-                    results.push_back(blockIds);
+
+
                 }else{
                     if(i == 0){
                         indexBlocksCount -= 1;
                     }
                     cout << "Total Number of Index nodes accessed: " << indexBlocksCount << endl;
-
-                    return results;
+                    for (auto i: blockIds){
+                        cout << i << " ";
+                    }
+                    cout << endl;
+                    return blockIds;
                 }
                 if(i == cursor->keys.size()-1){
                     cursor = cursor->nextptr;
@@ -770,61 +772,104 @@ vector<string> split (const string &s, char delim) {
 
     return result;
 }
+struct columns{
+    char name[COL_NAME_SIZE];
+    int dtype;
+};
+
+struct Table{
+    int prefix[NUM_ATT + 1];
+    int record_size;
+    int table_size;
+    int num_att;
+    int block_size;
+    int num_rec;
+    int num_blocks;
+    columns col[NUM_ATT + 1];
+    char name[FILE_NAME_SIZE];
+
+    void *blocks_buff;
+};
+struct Record{
+    char first[CHAR_SIZE];
+    float second;
+    int third;
+};
+struct Block{
+    Record record;
+    struct Block *next;
+};
+
+struct Block_header{
+    int block_id;
+    int num_records;
+    int first_len;
+    int second_len;
+    int third_len;
+};
+
+
 // changed
 void insertFunc(BPTree** bPTree) {
 
-    ifstream inFile;
     // please change to correct path
-    inFile.open("C:\\Users\\myath\\CLionProjects\\myat-db\\disk.dat",ios::in);
+
+    vector<std::string> t_const;
+    char *path;
+    int count = 0;
+    Record *record;
+    record = (Record*)malloc(sizeof(Record));
+    Block_header *blockHeader;
+    blockHeader = (Block_header*)malloc(sizeof(Block_header));
+    path=(char *)malloc(sizeof(char)*PATH_LEN);
+    sprintf(path, "tables/%s/disk.dat", db_name);
+    FILE *fp = fopen(path,"rb");
+
+    if( fp == NULL ) {
+        return t_const;
+    }
+
+    Table * table = get_storage_details(db_name);
+    cout << "num blocks: " << table->num_blocks << endl;
+
+    vector<string> tempVect;
     map<float, vector<string>> groupByRatingTable;
     map<float, vector<string>>::iterator it;
-    // check if opening a file failed
-    if (inFile.fail()) {
-        cerr << "Error opeing a file" << endl;
-        inFile.close();
-        exit(1);
-    }
-    string line;
-    string delimiter = ";";
-    int i = 0;
-    vector<string> tempVect;
-    while (getline(inFile, line) && i <50)
-    {
-        //cout << line << endl;
-        vector<string> v = split(line,';');
-        vector<string> data = split(v[1], ' ');
-        for(int i=1; i<data.size();i+=3){
-            float temp = ::atof(data[i].c_str());
-            cout << "block id: " << v[0] <<endl;
-            cout << "average rating: " << temp << endl;
+    for(int k=0; k < table->num_blocks; k++){
+        fread(blockHeader, sizeof(Block_header), 1, fp);
+        count = blockHeader->num_records;
+        cout << "count: " <<count << endl;
+        for(int i=0; i < count; i++){
+            fread(record, sizeof(Record), 1, fp);
+            float temp = record->second;
             it = groupByRatingTable.find(temp);
+            cout << "record second: " << record->second << endl;
+            cout << "block id: " << blockHeader->block_id << endl;
             if (it != groupByRatingTable.end()){
                 //cout << "Found: " << it->first << endl;
-                it->second.push_back(v[0]);
-
+                it->second.push_back(to_string(blockHeader->block_id));
             }else{
                 tempVect.clear();
-                tempVect.push_back(v[0]);
-                groupByRatingTable[temp] =tempVect;
+                tempVect.push_back(to_string(blockHeader->block_id));
+                groupByRatingTable[temp] = tempVect;
             }
 
-
-
         }
-        i++;
+        if(k == 20){
+            break;
+        }
+
     }
     for ( it = groupByRatingTable.begin(); it != groupByRatingTable.end(); it++ )
     {
-        std::cout << it->first << ":" << endl ;
+        cout << it->first << ":" << endl;
         (*bPTree)->insert(it->first*10, it->second);
-        cout << "inserted one key" << endl;
-//        for (auto i: it->second)
-//            std::cout << i << ' ';
-//        cout << endl;
+        for (auto i: it->second)
+            std::cout << i << ' ';
+        cout << endl;
     }
-
-
 }
+
 void deleteFunc(BPTree* bPTree){
     float key;
     cout << "What's the key to remove? ";
