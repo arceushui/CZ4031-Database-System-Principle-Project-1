@@ -49,8 +49,8 @@ public:
     int count;
     void setRoot(Node *);
     void display(Node* cursor);
-    void search(float key);
-    void searchRange(float smallerKey, float largerKey);
+    vector<int> search(float key);
+    vector<int> searchRange(float smallerKey, float largerKey);
     void insert(int key, string filePtr);
     void removeKey(float x);
     void removeInternal(int x, Node* cursor, Node* child);
@@ -58,8 +58,8 @@ public:
 
 void insertFunc(BPTree** bPTree);
 void printFunc(BPTree* bPTree);
-void searchFunc(BPTree* bPTree);
-void searchRangeFunc(BPTree* bPTree);
+std::vector<int> searchFunc(BPTree* bPTree, float key);
+std::vector<int> searchRangeFunc(BPTree* bPTree, float smallerKey, float largerKey);
 void deleteFunc(BPTree* bPTree);
 /*
 class BPlusTree{

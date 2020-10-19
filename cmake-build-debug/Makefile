@@ -235,33 +235,6 @@ get_storage_details.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Database_System_Principle.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Database_System_Principle.dir\get_storage_details.cpp.s
 .PHONY : get_storage_details.cpp.s
 
-indexing.obj: indexing.cpp.obj
-
-.PHONY : indexing.obj
-
-# target to build an object file
-indexing.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Database_System_Principle.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Database_System_Principle.dir\indexing.cpp.obj
-.PHONY : indexing.cpp.obj
-
-indexing.i: indexing.cpp.i
-
-.PHONY : indexing.i
-
-# target to preprocess a source file
-indexing.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Database_System_Principle.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Database_System_Principle.dir\indexing.cpp.i
-.PHONY : indexing.cpp.i
-
-indexing.s: indexing.cpp.s
-
-.PHONY : indexing.s
-
-# target to generate assembly for a file
-indexing.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Database_System_Principle.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Database_System_Principle.dir\indexing.cpp.s
-.PHONY : indexing.cpp.s
-
 main.obj: main.cpp.obj
 
 .PHONY : main.obj
@@ -337,9 +310,6 @@ help:
 	@echo ... get_storage_details.obj
 	@echo ... get_storage_details.i
 	@echo ... get_storage_details.s
-	@echo ... indexing.obj
-	@echo ... indexing.i
-	@echo ... indexing.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s

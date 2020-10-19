@@ -99,7 +99,7 @@ void create_table(char name[], std::string input_file, int count){
 
 
     sprintf(path, "tables/%s/disk.dat", table->name);
-    FILE *disk_file = fopen(path, "w+");
+    FILE *disk_file = fopen(path, "wb");
 
     Record record;
     Block_header *blk_header = new Block_header();
@@ -131,7 +131,7 @@ void create_table(char name[], std::string input_file, int count){
             blk_header->third_len = sizeof(int);
             fwrite(blk_header, sizeof(Block_header), 1, disk_file);
             while (iterator != NULL) {
-                fwrite(&(iterator->record), 1, sizeof(Record), disk_file);
+                fwrite(&(iterator->record), sizeof(Record), 1, disk_file);
                 iterator = iterator->next;
             }
 
@@ -159,7 +159,7 @@ void create_table(char name[], std::string input_file, int count){
         fwrite(blk_header, sizeof(Block_header), 1, disk_file);
 
         while (iterator != NULL) {
-            fwrite(&(iterator->record), 1, sizeof(Record), disk_file);
+            fwrite(&(iterator->record), sizeof(Record), 1, disk_file);
             iterator = iterator->next;
         }
     }

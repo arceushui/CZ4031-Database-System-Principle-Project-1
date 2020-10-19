@@ -61,7 +61,5 @@ struct Block_header{
 FILE *get_file(char table_name[] , char opera[]);
 void create_table(char name[FILE_NAME_SIZE], std::string input_file, int count);
 Table * get_storage_details(char table_name[]);
-void read_blocks(char table_name[]);
-std::vector<std::string> mapper(int blk_id, float index, char db_name[]);
-void create_table_2(char name[], std::string input_file, int count);
-int read();
+std::vector<std::string> mapper(int blk_id, float l_index, float u_index, char db_name[]);
+std::vector<std::string> get_tconst(std::vector<int> blk_ids, float l_key, float u_key, char db_name[]);

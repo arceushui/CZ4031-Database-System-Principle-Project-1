@@ -3,7 +3,7 @@
 
 CMakeFiles/Database_System_Principle.dir/bptree.cpp.obj
  C:/Users/User/CLionProjects/Database System Principle/bptree.cpp
- C:/Users/User/CLionProjects/Database System Principle/include/B+Tree.h
+ C:/Users/User/CLionProjects/Database System Principle/include/function_declarations.h
 CMakeFiles/Database_System_Principle.dir/create_table.cpp.obj
  C:/Users/User/CLionProjects/Database System Principle/create_table.cpp
  C:/Users/User/CLionProjects/Database System Principle/include/function_declarations.h
@@ -13,9 +13,6 @@ CMakeFiles/Database_System_Principle.dir/file_handler.cpp.obj
 CMakeFiles/Database_System_Principle.dir/get_storage_details.cpp.obj
  C:/Users/User/CLionProjects/Database System Principle/get_storage_details.cpp
  C:/Users/User/CLionProjects/Database System Principle/include/function_declarations.h
-CMakeFiles/Database_System_Principle.dir/indexing.cpp.obj
- C:/Users/User/CLionProjects/Database System Principle/include/function_declarations.h
- C:/Users/User/CLionProjects/Database System Principle/indexing.cpp
 CMakeFiles/Database_System_Principle.dir/main.cpp.obj
  C:/Users/User/CLionProjects/Database System Principle/include/B+Tree.h
  C:/Users/User/CLionProjects/Database System Principle/include/function_declarations.h

@@ -3,7 +3,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/Database_System_Principle.dir/create_table.cpp.obj"
   "CMakeFiles/Database_System_Principle.dir/file_handler.cpp.obj"
   "CMakeFiles/Database_System_Principle.dir/get_storage_details.cpp.obj"
-  "CMakeFiles/Database_System_Principle.dir/indexing.cpp.obj"
   "CMakeFiles/Database_System_Principle.dir/main.cpp.obj"
   "CMakeFiles/Database_System_Principle.dir/mapper.cpp.obj"
   "Database_System_Principle.exe"

@@ -8,7 +8,6 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "C:/Users/User/CLionProjects/Database System Principle/create_table.cpp" "C:/Users/User/CLionProjects/Database System Principle/cmake-build-debug/CMakeFiles/Database_System_Principle.dir/create_table.cpp.obj"
   "C:/Users/User/CLionProjects/Database System Principle/file_handler.cpp" "C:/Users/User/CLionProjects/Database System Principle/cmake-build-debug/CMakeFiles/Database_System_Principle.dir/file_handler.cpp.obj"
   "C:/Users/User/CLionProjects/Database System Principle/get_storage_details.cpp" "C:/Users/User/CLionProjects/Database System Principle/cmake-build-debug/CMakeFiles/Database_System_Principle.dir/get_storage_details.cpp.obj"
-  "C:/Users/User/CLionProjects/Database System Principle/indexing.cpp" "C:/Users/User/CLionProjects/Database System Principle/cmake-build-debug/CMakeFiles/Database_System_Principle.dir/indexing.cpp.obj"
   "C:/Users/User/CLionProjects/Database System Principle/main.cpp" "C:/Users/User/CLionProjects/Database System Principle/cmake-build-debug/CMakeFiles/Database_System_Principle.dir/main.cpp.obj"
   "C:/Users/User/CLionProjects/Database System Principle/mapper.cpp" "C:/Users/User/CLionProjects/Database System Principle/cmake-build-debug/CMakeFiles/Database_System_Principle.dir/mapper.cpp.obj"
   )

@@ -8,17 +8,16 @@ int input_verify(){
     fflush(stdout);
     fflush(stdin);
     while (true){
-        std::cout << "Select one of the options" << std::endl ;
+        std::cout << "Select one of the options:" << std::endl ;
         std::cout << "1. Insert table in database(storage component)" << std::endl;
-        std::cout << "2. Insert table in database(indexing component)" << std::endl;
+        std::cout << "2. Create B+ tree on the data" << std::endl;
         std::cout << "3. Get blocks data information" << std::endl;
-        std::cout << "4. Create B+ tree on the data" << std::endl;
         std::cin >> option;
         if(option.length() > 1){
             std::cout << "Wrong input. Please retry!" << std::endl;
         }
         else{
-            if(option[0] > 48 && option[0]< 53){
+            if(option[0] > 48 && option[0]< 52){
                 return option[0]-48;
             }
             else{
@@ -32,9 +31,19 @@ int bptree_option(char * db_name){
     std::string bp_option;
     fflush(stdout);
     fflush(stdin);
+    int n;
+    std::vector<int> search;
+    float key;
+    float smallerKey, largerKey;
+    std::vector<std::string> t_consts;
+    std::vector<int>::size_type sz;
+    std::cout << "Please input the parameter n (number of children in a node) for B+Tree" << std::endl;
+    std::cin >> n;
+    BPTree* bPTree = new BPTree(n+1, n);
+    insertFunc(&bPTree);
     while (true){
         std::cout << "Select one of the options" << std::endl ;
-        std::cout << "1. Insert dataset into B+ tree and display." << std::endl;
+        std::cout << "1. Display B+ tree" << std::endl;
         std::cout << "2. Single value query on B+ tree" << std::endl;
         std::cout << "3. Range value query on B+ tree" << std::endl;
         std::cout << "4. Deletion of single value on B+ tree" << std::endl;
@@ -45,26 +54,65 @@ int bptree_option(char * db_name){
         }
         else{
             if(bp_option[0] > 48 && bp_option[0]< 53){
-                int n;
-                std::cout << "Please input the parameter n (number of children in a node) for B+Tree" << std::endl;
-                std::cin >> n;
-                BPTree* bPTree = new BPTree(n+1, n);
-                bPTree->count = 0;
                 switch(bp_option[0]-48){
                     case 1:
-                        insertFunc(&bPTree);
+                        bPTree->count = 0;
                         printFunc(bPTree);
                         std::cout << "Total Number of Nodes: " << bPTree->count << std::endl;
                         break;
                     case 2:
-                        searchFunc(bPTree);
+                        cout << "What's the key to search? Enter value between 1 - 10.";
+                        cin >> key;
+                        while(key < 1 || key > 10){
+                            cout << "Please enter a value between 1 and 10: " << endl;
+                            cin >> key;
+                        }
+                        search = searchFunc(bPTree, key);
+                        t_consts = get_tconst(search, key, key, db_name);
+                        sz = t_consts.size();
+                        if(sz == 0){
+                            std::cout << "There is no such value inside the dataset" << std::endl;
+                        }
+                        else{
+                            std::cout << "t_const are";
+                            for (unsigned i=0; i<sz; i++){
+                                std::cout << ' ' << t_consts[i];
+                            }
+                            std::cout << std::endl;
+                        }
                         break;
                     case 3:
-                        searchRangeFunc(bPTree);
+                        cout << "Enter lower bound key: " << endl;
+                        cin >> smallerKey;
+                        while(smallerKey < 1 || smallerKey > 10){
+                            cout << "Please enter a value between 1 and 10: " << endl;
+                            cin >> smallerKey;
+                        }
+                        cout << "Enter upper bound key: " << endl;
+                        cin >> largerKey;
+                        while(largerKey < 1 || largerKey > 10){
+                            cout << "Please enter a value between 1 and 10: " << endl;
+                            cin >> largerKey;
+                        }
+                        search = searchRangeFunc(bPTree, smallerKey, largerKey);
+                        t_consts = get_tconst(search, smallerKey, largerKey, db_name);
+
+                        sz = t_consts.size();
+                        if(sz == 0){
+                            std::cout << "There is no such value inside the dataset" << std::endl;
+                        }
+                        else{
+                            std::cout << "t_const are";
+                            for (unsigned i=0; i<sz; i++){
+                                std::cout << ' ' << t_consts[i];
+                            }
+                            std::cout << std::endl;
+                        }
                         break;
 
                     case 4:
                         deleteFunc(bPTree);
+                        printFunc(bPTree);
                         break;
                 }
             }
@@ -83,7 +131,7 @@ void input(char *db_name){
     int c = input_verify();
     Table * table;
     std::string data_file;
-    while(c > 0 && c < 5){
+    while(c > 0 && c < 4){
         switch(c){
             case 1:
                 std::cout << "Enter the filename:" << std::endl;
@@ -92,17 +140,12 @@ void input(char *db_name){
                 std::cout << "Insert table successfully!" << std::endl;
                 break;
             case 2:
-                //create_b+();
-                //parse_create();
+                bptree_option(db_name);
                 break;
             case 3:
                 table = get_storage_details(db_name);
                 std::cout << "Number of blocks: " << table->num_blocks << std::endl;
                 std::cout << "Size of database: " << table->table_size << "B" << std::endl;
-                break;
-
-            case 4:
-                bptree_option(db_name);
                 break;
         }
         c = input_verify();
@@ -114,11 +157,6 @@ int main() {
     std::cout << "Enter the database name:" << std::endl;
     std::cin >> db_name;
     input(db_name);
-    //read_blocks("IMDB");
-    //std::string t_const = mapper(3, 5.9);
-    //std::cout << t_const;
-    //create_table("IMDB", "data.tsv", 3);
-    //read();
-    //mapper(2, 5.5);
+    //testing();
     return 0;
 }

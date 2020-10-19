@@ -13,7 +13,7 @@ Table * get_storage_details(char table_name[]){
     path=(char *)malloc(sizeof(char)*PATH_LEN);
     sprintf(path, "./tables/%s/header.dat", table_name);
 
-    std::cout << path << std::endl;
+    //std::cout << path << std::endl;
     FILE *header_file = fopen(path, "r");
 
     table = (Table*)malloc(sizeof(Table));
