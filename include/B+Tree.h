@@ -56,7 +56,7 @@ public:
     void removeInternal(int x, Node* cursor, Node* child);
 };
 
-void insertFunc(BPTree** bPTree);
+void insertFunc(BPTree** bPTree, char db_name[]);
 void printFunc(BPTree* bPTree);
 std::vector<int> searchFunc(BPTree* bPTree, float key);
 std::vector<int> searchRangeFunc(BPTree* bPTree, float smallerKey, float largerKey);

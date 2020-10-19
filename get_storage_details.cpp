@@ -21,6 +21,5 @@ Table * get_storage_details(char table_name[]){
 
     return table;
 
-
 }
 

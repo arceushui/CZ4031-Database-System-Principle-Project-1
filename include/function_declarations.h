@@ -13,10 +13,9 @@
 #define NUM_ATT 3
 #define COL_NAME_SIZE 15
 #define CHAR_SIZE 11
-#define BLOCK_SIZE 100
+//#define BLOCK_SIZE 500
 #define FILE_NAME_SIZE 1000
 #define PATH_LEN 50
-#define BPTREE_N_PER_NODE 40
 
 struct columns{
     char name[COL_NAME_SIZE];
@@ -59,7 +58,7 @@ struct Block_header{
 
 
 FILE *get_file(char table_name[] , char opera[]);
-void create_table(char name[FILE_NAME_SIZE], std::string input_file, int count);
+void create_table(char name[], std::string input_file, int count, int BLOCK_SIZE);
 Table * get_storage_details(char table_name[]);
-std::vector<std::string> mapper(int blk_id, float l_index, float u_index, char db_name[]);
-std::vector<std::string> get_tconst(std::vector<int> blk_ids, float l_key, float u_key, char db_name[]);
+std::vector<std::string> mapper(std::vector<int> blk_id, float l_index, float u_index, char db_name[], int num_blks, bool stat, int BLOCK_SIZE);
+std::vector<std::string> get_tconst(std::vector<int> blk_ids, float l_key, float u_key, char db_name[], bool stat, int BLOCK_SIZE);

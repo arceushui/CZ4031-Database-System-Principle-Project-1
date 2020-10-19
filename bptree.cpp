@@ -8,13 +8,7 @@
 #include<sstream>
 #include <map>
 #include "include/function_declarations.h"
-#define NUM_ATT 3
-#define COL_NAME_SIZE 15
-#define CHAR_SIZE 11
-#define BLOCK_SIZE 100
-#define FILE_NAME_SIZE 1000
-#define PATH_LEN 50
-#define BPTREE_N_PER_NODE 40
+
 using namespace std;
 class Node {
 public:
@@ -667,10 +661,6 @@ vector<int> BPTree::search(float key) {
                     for (auto k: cursor->ptrsData.blockptr[i]){
                         blockIds.push_back(std::stoi(k));
                     }
-                    for (auto i: blockIds){
-                        cout << i << " ";
-
-                    }
                     cout << endl;
                 }else{
                     if(i == 0){
@@ -732,17 +722,11 @@ vector<int> BPTree::searchRange(float smallerKey, float largerKey) {
                 if(cursor->keys[i] >= smallerKey && cursor->keys[i] <= largerKey){
                     float resultKey = float(cursor->keys[i])/float(10);
                     cout << "key: " << resultKey << "\n";
-                    cout << "block id: ";
+                    //cout << "block id: ";
 
                     for (auto k: cursor->ptrsData.blockptr[i]){
                         blockIds.push_back(std::stoi(k));
                     }
-
-                    for (auto i: blockIds){
-                        cout << i << " ";
-                    }
-
-
 
                 }else{
                     if(i == 0){
@@ -782,7 +766,7 @@ vector<string> split (const string &s, char delim) {
 }
 
 // changed
-void insertFunc(BPTree** bPTree) {
+void insertFunc(BPTree** bPTree, char db_name[]) {
 
     // please change to correct path
 
@@ -794,7 +778,7 @@ void insertFunc(BPTree** bPTree) {
     Block_header *blockHeader;
     blockHeader = (Block_header*)malloc(sizeof(Block_header));
     path=(char *)malloc(sizeof(char)*PATH_LEN);
-    sprintf(path, "tables/%s/disk.dat","IMDB");
+    sprintf(path, "tables/%s/disk.dat", db_name);
     FILE *fp = fopen(path,"rb");
 
     if( fp == NULL ) {
@@ -810,14 +794,14 @@ void insertFunc(BPTree** bPTree) {
     for(int k=0; k < table->num_blocks; k++){
         fread(blockHeader, sizeof(Block_header), 1, fp);
         count = blockHeader->num_records;
-        cout << "count: " <<count << endl;
+        //cout << "count: " <<count << endl;
         for(int i=0; i < count; i++){
             fread(record, sizeof(Record), 1, fp);
             float temp = record->second;
             //cout << record->first << endl;
             it = groupByRatingTable.find(temp);
             //cout << "record second: " << record->second << endl;
-            cout << "block id: " << blockHeader->block_id << endl;
+            //cout << "block id: " << blockHeader->block_id << endl;
             if (it != groupByRatingTable.end()){
                 //cout << "Found: " << it->first << endl;
                 it->second.push_back(to_string(blockHeader->block_id));
@@ -828,19 +812,17 @@ void insertFunc(BPTree** bPTree) {
             }
 
         }
-        //if(k == 200){
+        //if(k == 50000){
         //    break;
         //}
 
     }
     for ( it = groupByRatingTable.begin(); it != groupByRatingTable.end(); it++ )
     {
-        cout << it->first << ":" << endl;
+        //cout << it->first << ":" << endl;
         (*bPTree)->insert(it->first*10, it->second);
-        for (auto i: it->second)
-            std::cout << i << ' ';
-        cout << endl;
     }
+    cout << "Finished inserting" << endl;
 }
 
 void deleteFunc(BPTree* bPTree){

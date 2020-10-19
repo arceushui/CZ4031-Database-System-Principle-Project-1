@@ -33,7 +33,7 @@ void insertAtEnd(struct Block** blk, Record data) {
     return;
 }
 
-void create_table(char name[], std::string input_file, int count){
+void create_table(char name[], std::string input_file, int count, int BLOCK_SIZE){
     Table *table = new Table();
     strcpy(table->name,name);
     table->blocks_buff = NULL;
@@ -117,7 +117,7 @@ void create_table(char name[], std::string input_file, int count){
         }
 
         (table->num_rec)++;
-
+        //std::cout << table->num_rec << std::endl;
         if(((table->num_rec)*(table->record_size) + sizeof(Block_header)) > table->block_size){
             blk_header->num_records = table->num_rec - 1;
             table->num_rec = 1;
