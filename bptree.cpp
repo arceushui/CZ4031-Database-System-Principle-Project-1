@@ -785,8 +785,8 @@ void insertFunc(BPTree** bPTree, char db_name[]) {
 
     }
 
-    Table * table = get_storage_details("IMDB");
-    cout << "num blocks: " << table->num_blocks << endl;
+    Table * table = get_storage_details(db_name);
+    //cout << "num blocks: " << table->num_blocks << endl;
 
     vector<string> tempVect;
     map<float, vector<string>> groupByRatingTable;
