@@ -14,10 +14,27 @@ int insert_header(Table *table, FILE *blk_file)
     return 1;
 }
 
-void create_table(char name[], std::string input_file, int count){
-    //Table *toreturn;
+void insertAtEnd(struct Block** blk, Record data) {
+    struct Block* new_block = (struct Block*)malloc(sizeof(struct Block));
+    struct Block* last = *blk;
+
+    new_block->record = data;
+    new_block->next = NULL;
+
+    if (*blk == NULL) {
+        *blk = new_block;
+        return;
+    }
+
+    while (last->next != NULL)
+        last = last->next;
+
+    last->next = new_block;
+    return;
+}
+
+void create_table(char name[], std::string input_file, int count, int BLOCK_SIZE){
     Table *table = new Table();
-    //table->fp = NULL;
     strcpy(table->name,name);
     table->blocks_buff = NULL;
     table->num_att = count;
@@ -31,7 +48,6 @@ void create_table(char name[], std::string input_file, int count){
     char a[CHAR_SIZE];
     float b;
     int c;
-    //int i = 0;
 
     std::getline(infile,header);
     std::istringstream iss(header);
@@ -83,58 +99,81 @@ void create_table(char name[], std::string input_file, int count){
 
 
     sprintf(path, "tables/%s/disk.dat", table->name);
-    //std::cout<<str<<endl;
-    FILE *disk_file = fopen(path, "w+");
-    std::ofstream data_file;
-    data_file.open (path);
-    data_file << num_block <<";";
+    FILE *disk_file = fopen(path, "wb");
+
+    Record record;
+    Block_header *blk_header = new Block_header();
+
+    Block *iterator;
+
+    struct Block *head = NULL;
 
     while(std::getline(infile, data)){
+
         std::istringstream iss(data);
 
         if (!(iss >> a >> b >> c)){
             break;
         }
 
-
         (table->num_rec)++;
-
-        //std::cout << a;
         //std::cout << table->num_rec << std::endl;
-        //std::cout << table->record_size << std::endl;
-        //std::cout << (table->num_rec)*(table->record_size) + 4 << std::endl;
-        //std::cout << "\n";
-
-        if(((table->num_rec)*(table->record_size + 3) + 4) > table->block_size){
+        if(((table->num_rec)*(table->record_size) + sizeof(Block_header)) > table->block_size){
+            blk_header->num_records = table->num_rec - 1;
             table->num_rec = 1;
             num_block++;
-            //sprintf(path, "tables/%s/block_%d.dat", table->name, num_block);
-            //std::cout<<str<<endl;
-            //disk_file = fopen(path, "w+");
-            //fflush(disk_file);
-            //fwrite(&next, sizeof(char)*CHAR_SIZE, 1, disk_file);
-            data_file << std::endl;
-            data_file << num_block << ";";
-            //fwrite(&num_block, sizeof(char)*CHAR_SIZE, 1, disk_file);
 
-            //insert_data(line_data, table, &data_file);
+            iterator = head;
+
+            blk_header->block_id = num_block;
+            blk_header->first_len = CHAR_SIZE;
+            blk_header->second_len = sizeof(float);
+            blk_header->third_len = sizeof(int);
+            fwrite(blk_header, sizeof(Block_header), 1, disk_file);
+            while (iterator != NULL) {
+                fwrite(&(iterator->record), sizeof(Record), 1, disk_file);
+                iterator = iterator->next;
+            }
+
+            head = NULL;
+
         }
 
-        data_file << a << " ";
-        data_file << b << " ";
-        data_file << c << " ";
+        strcpy(record.first, a);
+        record.second = b;
+        record.third =c;
 
+        insertAtEnd(&head, record);
     }
+
+    if(head != NULL){
+        num_block++;
+        iterator = head;
+        blk_header->num_records=table->num_rec;
+        //std::cout << blk_header->num_records;
+        blk_header->block_id = num_block;
+        blk_header->first_len = CHAR_SIZE;
+        blk_header->second_len = sizeof(float);
+        blk_header->third_len = sizeof(int);
+
+        fwrite(blk_header, sizeof(Block_header), 1, disk_file);
+
+        while (iterator != NULL) {
+            fwrite(&(iterator->record), sizeof(Record), 1, disk_file);
+            iterator = iterator->next;
+        }
+    }
+
+
     table->num_blocks = num_block;
     rewind(disk_file);
     fseek(disk_file, 0L, SEEK_END);
     table->table_size = ftell(disk_file);
-    //std::cout << table->num_blocks << std::endl;
-    //std::cout << table->table_size << std::endl;
+
     fclose(disk_file);
 
     sprintf(path, "tables/%s/header.dat", table->name);
-    //std::cout<<str<<endl;
+
     disk_file = fopen(path, "w+");
     ins_head = insert_header(table, disk_file);
     fclose(disk_file);
@@ -147,4 +186,3 @@ void create_table(char name[], std::string input_file, int count){
 
     return;
 }
-

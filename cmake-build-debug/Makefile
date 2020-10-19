@@ -127,32 +127,32 @@ Database_System_Principle\fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Database_System_Principle.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Database_System_Principle.dir\build
 .PHONY : Database_System_Principle\fast
 
-create_b+.obj: create_b+.cpp.obj
+bptree.obj: bptree.cpp.obj
 
-.PHONY : create_b+.obj
+.PHONY : bptree.obj
 
 # target to build an object file
-create_b+.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Database_System_Principle.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Database_System_Principle.dir\create_b+.cpp.obj
-.PHONY : create_b+.cpp.obj
+bptree.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Database_System_Principle.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Database_System_Principle.dir\bptree.cpp.obj
+.PHONY : bptree.cpp.obj
 
-create_b+.i: create_b+.cpp.i
+bptree.i: bptree.cpp.i
 
-.PHONY : create_b+.i
+.PHONY : bptree.i
 
 # target to preprocess a source file
-create_b+.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Database_System_Principle.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Database_System_Principle.dir\create_b+.cpp.i
-.PHONY : create_b+.cpp.i
+bptree.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Database_System_Principle.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Database_System_Principle.dir\bptree.cpp.i
+.PHONY : bptree.cpp.i
 
-create_b+.s: create_b+.cpp.s
+bptree.s: bptree.cpp.s
 
-.PHONY : create_b+.s
+.PHONY : bptree.s
 
 # target to generate assembly for a file
-create_b+.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Database_System_Principle.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Database_System_Principle.dir\create_b+.cpp.s
-.PHONY : create_b+.cpp.s
+bptree.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Database_System_Principle.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Database_System_Principle.dir\bptree.cpp.s
+.PHONY : bptree.cpp.s
 
 create_table.obj: create_table.cpp.obj
 
@@ -235,33 +235,6 @@ get_storage_details.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Database_System_Principle.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Database_System_Principle.dir\get_storage_details.cpp.s
 .PHONY : get_storage_details.cpp.s
 
-indexing.obj: indexing.cpp.obj
-
-.PHONY : indexing.obj
-
-# target to build an object file
-indexing.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Database_System_Principle.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Database_System_Principle.dir\indexing.cpp.obj
-.PHONY : indexing.cpp.obj
-
-indexing.i: indexing.cpp.i
-
-.PHONY : indexing.i
-
-# target to preprocess a source file
-indexing.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Database_System_Principle.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Database_System_Principle.dir\indexing.cpp.i
-.PHONY : indexing.cpp.i
-
-indexing.s: indexing.cpp.s
-
-.PHONY : indexing.s
-
-# target to generate assembly for a file
-indexing.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Database_System_Principle.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Database_System_Principle.dir\indexing.cpp.s
-.PHONY : indexing.cpp.s
-
 main.obj: main.cpp.obj
 
 .PHONY : main.obj
@@ -289,6 +262,33 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Database_System_Principle.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Database_System_Principle.dir\main.cpp.s
 .PHONY : main.cpp.s
 
+mapper.obj: mapper.cpp.obj
+
+.PHONY : mapper.obj
+
+# target to build an object file
+mapper.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Database_System_Principle.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Database_System_Principle.dir\mapper.cpp.obj
+.PHONY : mapper.cpp.obj
+
+mapper.i: mapper.cpp.i
+
+.PHONY : mapper.i
+
+# target to preprocess a source file
+mapper.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Database_System_Principle.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Database_System_Principle.dir\mapper.cpp.i
+.PHONY : mapper.cpp.i
+
+mapper.s: mapper.cpp.s
+
+.PHONY : mapper.s
+
+# target to generate assembly for a file
+mapper.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Database_System_Principle.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Database_System_Principle.dir\mapper.cpp.s
+.PHONY : mapper.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -298,9 +298,9 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... Database_System_Principle
-	@echo ... create_b+.obj
-	@echo ... create_b+.i
-	@echo ... create_b+.s
+	@echo ... bptree.obj
+	@echo ... bptree.i
+	@echo ... bptree.s
 	@echo ... create_table.obj
 	@echo ... create_table.i
 	@echo ... create_table.s
@@ -310,12 +310,12 @@ help:
 	@echo ... get_storage_details.obj
 	@echo ... get_storage_details.i
 	@echo ... get_storage_details.s
-	@echo ... indexing.obj
-	@echo ... indexing.i
-	@echo ... indexing.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
+	@echo ... mapper.obj
+	@echo ... mapper.i
+	@echo ... mapper.s
 .PHONY : help
 
 

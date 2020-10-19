@@ -6,79 +6,21 @@
 
 #IncludeRegexTransform: 
 
-C:/Users/User/CLionProjects/Database System Principle/create_b+.cpp
-include/B+Tree.h
 C:/Users/User/CLionProjects/Database System Principle/include/B+Tree.h
 vector
 -
-algorithm
--
-time.h
--
-stack
--
-iostream
--
-
-C:/Users/User/CLionProjects/Database System Principle/create_table.cpp
-include/function_declarations.h
-C:/Users/User/CLionProjects/Database System Principle/include/function_declarations.h
-string
--
-sstream
--
-iostream
--
-ostream
--
-
-C:/Users/User/CLionProjects/Database System Principle/file_handler.cpp
-cstdio
--
-cstring
--
-cstdlib
--
-iostream
--
-direct.h
--
-include/function_declarations.h
-C:/Users/User/CLionProjects/Database System Principle/include/function_declarations.h
-
-C:/Users/User/CLionProjects/Database System Principle/get_storage_details.cpp
-cstdio
--
-cstdlib
--
-iostream
--
-include/function_declarations.h
-C:/Users/User/CLionProjects/Database System Principle/include/function_declarations.h
-
-C:/Users/User/CLionProjects/Database System Principle/include/B+Tree.h
-function_declarations.h
-C:/Users/User/CLionProjects/Database System Principle/include/function_declarations.h
 
 C:/Users/User/CLionProjects/Database System Principle/include/function_declarations.h
 fstream
 -
-
-C:/Users/User/CLionProjects/Database System Principle/indexing.cpp
-cstdio
+vector
 -
-fstream
--
-string
--
-iostream
--
-include/function_declarations.h
-C:/Users/User/CLionProjects/Database System Principle/include/function_declarations.h
 
 C:/Users/User/CLionProjects/Database System Principle/main.cpp
 include/function_declarations.h
 C:/Users/User/CLionProjects/Database System Principle/include/function_declarations.h
+include/B+Tree.h
+C:/Users/User/CLionProjects/Database System Principle/include/B+Tree.h
 string
 -
 iostream

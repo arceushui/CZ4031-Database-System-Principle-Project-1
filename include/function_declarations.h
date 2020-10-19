@@ -8,14 +8,14 @@
 #endif //DATABASE_SYSTEM_PRINCIPLE_FUNCTION_DECLARATIONS_H
 
 #include <fstream>
+#include <vector>
 
 #define NUM_ATT 3
 #define COL_NAME_SIZE 15
 #define CHAR_SIZE 11
-#define BLOCK_SIZE 100
+//#define BLOCK_SIZE 500
 #define FILE_NAME_SIZE 1000
 #define PATH_LEN 50
-#define BPTREE_N_PER_NODE 40
 
 struct columns{
     char name[COL_NAME_SIZE];
@@ -24,9 +24,9 @@ struct columns{
 
 struct Table{
     int prefix[NUM_ATT + 1];
-    int num_att;
     int record_size;
     int table_size;
+    int num_att;
     int block_size;
     int num_rec;
     int num_blocks;
@@ -36,7 +36,29 @@ struct Table{
     void *blocks_buff;
 };
 
+struct Record{
+    char first[CHAR_SIZE];
+    float second;
+    int third;
+};
+
+struct Block{
+    Record record;
+    struct Block *next;
+};
+
+struct Block_header{
+    int block_id;
+    int num_records;
+    int first_len;
+    int second_len;
+    int third_len;
+};
+
+
+
 FILE *get_file(char table_name[] , char opera[]);
-void create_table(char name[FILE_NAME_SIZE], std::string input_file, int count);
-void get_storage_details(char table_name[]);
-void read_blocks(char table_name[]);
+void create_table(char name[], std::string input_file, int count, int BLOCK_SIZE);
+Table * get_storage_details(char table_name[]);
+std::vector<std::string> mapper(std::vector<int> blk_id, float l_index, float u_index, char db_name[], int num_blks, bool stat, int BLOCK_SIZE);
+std::vector<std::string> get_tconst(std::vector<int> blk_ids, float l_key, float u_key, char db_name[], bool stat, int BLOCK_SIZE);

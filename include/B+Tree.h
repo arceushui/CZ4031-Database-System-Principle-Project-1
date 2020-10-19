@@ -2,15 +2,66 @@
 // Created by PANG JIN HUI on 3/10/2020.
 //
 
+#include <vector>
+
 #ifndef DATABASE_SYSTEM_PRINCIPLE_B_TREE_H
 #define DATABASE_SYSTEM_PRINCIPLE_B_TREE_H
 
 #endif //DATABASE_SYSTEM_PRINCIPLE_B_TREE_H
 
-#include "function_declarations.h"
+using namespace std;
 
-class BPlusTreeNode;
+class Node {
+public:
+    bool isLeaf;
+    vector<int> keys;
 
+    Node* ptr2next;
+    union ptr {
+        vector<Node*> ptr2Tree;
+        vector<string> dataPtr;
+
+        ptr();
+        ~ptr();
+    } ptr2TreeOrData;
+
+    friend class BPTree;
+public:
+    Node();
+};
+
+class BPTree {
+
+private:
+    int maxIntChildLimit;
+    int maxLeafNodeLimit;
+    Node* root;
+    void insertInternal(int x, Node** cursor, Node** child);
+    Node** findParent(Node* cursor, Node* child);
+    Node* firstLeftNode(Node* cursor);
+
+public:
+    BPTree();
+    BPTree(int degreeInternal, int degreeLeaf);
+    Node* getRoot();
+    int getMaxIntChildLimit();
+    int getMaxLeafNodeLimit();
+    int count;
+    void setRoot(Node *);
+    void display(Node* cursor);
+    vector<int> search(float key);
+    vector<int> searchRange(float smallerKey, float largerKey);
+    void insert(int key, string filePtr);
+    void removeKey(float x);
+    void removeInternal(int x, Node* cursor, Node* child);
+};
+
+void insertFunc(BPTree** bPTree, char db_name[]);
+void printFunc(BPTree* bPTree);
+std::vector<int> searchFunc(BPTree* bPTree, float key);
+std::vector<int> searchRangeFunc(BPTree* bPTree, float smallerKey, float largerKey);
+void deleteFunc(BPTree* bPTree);
+/*
 class BPlusTree{
 
     private:
@@ -28,3 +79,4 @@ class BPlusTree{
         BPlusTreeNode search_leaf(int search_key);
         int get_record(int search_key);
 };
+*/
